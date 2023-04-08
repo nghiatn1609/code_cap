@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Band</title>
+    <link rel="icon" href="https://www.google.com/a/cpanel/fpt.edu.vn/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../static/css/style_1.css">
+    <link rel="stylesheet" href="../static/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <style>
+        /* CSS để tùy chỉnh kích thước modal */
+        .modal-dialog {
+            max-width: 80%;
+            display: flex;
+        }
+
+        /* CSS để tùy chỉnh kích thước nội dung bên trong của modal */
+        .modal-body {
+            overflow-y: auto;
+            max-height: 500px;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <div id="header">
+            <!-- Begin nav -->
+            <ul id="nav">
+                <!-- ul#nav>li*5>a -->
+                <li><a href="#">Home</a></li>
+                <li><a href="#Product">Product</a></li>
+                <li><a href="#footer">Contact</a></li>
+
+
+            </ul>
+            <!-- End: Nav -->
+            <!-- Begin : Search button -->
+            <!-- <div class="search-btn">
+                <i class="search-icon ti-search"></i>
+            </div> -->
+            <!-- End : Search button -->
+
+        </div>
+
+        <!-- <div id="slider">
+            <div class="text-content">
+                <h2 class="text-heading">Chicago</h2>
+                <div class="text-description">Thank you, Chicago - A night we won't forget.</div>
+            </div>
+        </div> -->
+
+        <div id="content">
+            <!-- Begin About section -->
+            <div id="Band" class="content-section">
+                <h2 class="section-heading">{{ data2['description_1']['name'] }}</h2>
+                <p class="section-sub-heading">{{ data2['description_1']['slug'] }}</p>
+
+                <div class="row member-list">
+                    <p class="col col-half about-text">
+                        {{ data2['description']['description'] }}
+                    </p>
+                    <div class="col col-half text-center">
+                        <p class="member-name">Logo of {{ data2['description_1']['name'] }}</p>
+                        <img src="{{ data2['description']['logo'] }} " alt="Name" class="member-img">
+
+                    </div>
+
+                    <!-- <div class="clear"></div> -->
+                </div>
+
+            </div>
+            <!-- End About section -->
+
+            <!-- Begin Tour section -->
+            <div id="Product" class="tour-section">
+                <div class="content-section">
+                    <h2 class="section-heading text-white">PRODUCTS</h2>
+                    <p class="section-sub-heading text-white">Remember to read guideline!</p>
+
+                    <!-- Ticket list -->
+                    <ul class="ticket-list">
+                        <li>CMC Rank: <span class="sold-out">{{ data2['description_1']['cmc_rank'] }}</span></li>
+                        <li>Price (now): <span class="sold-out">{{ data2['description_1']['price'] }} $</span></li>
+                        <li>Date Added: <span class="sold-out">{{ data2['description_1']['date_added'] }}</span></li>
+                        <li>Last Updated: <span class="sold-out">{{ data2['description_1']['last_updated'] }}</span>
+                        </li>
+                        <ul class="percent_change"> Change Percent in:
+                            <li>1 hour <span class="sold-out"> {{ data2['description_1']['change_1h'] }} %</span></li>
+                            <li>24 hours <span class="sold-out"> {{ data2['description_1']['change_24h'] }} %</span>
+                            </li>
+                            <li>30 days <span class="sold-out"> {{ data2['description_1']['change_30d'] }} %</span></li>
+                            <li>60 days <span class="sold-out"> {{ data2['description_1']['change_60d'] }} %</span></li>
+                            <li>90 days <span class="sold-out"> {{ data2['description_1']['change_90d'] }} %</span></li>
+                        </ul>
+                        <ul class="volume"> Volume:
+                            <li>In 24 hours <span class="sold-out"> {{ data2['description_1']['volume_24h'] }}
+                                    coin</span></li>
+                            <li>Change in 24 hours <span class="sold-out"> {{
+                                    data2['description_1']['volume_change_24h'] }} %</span></li>
+                        </ul>
+                        <li>Max Supply: <span class="sold-out">{{ data2['description_1']['max_supply'] }} coin</span>
+                        </li>
+                        <!-- <li>November <span class="quantity">3</span></li> -->
+                    </ul>
+
+                    <!-- Places -->
+                    <div class="row places-list">
+                        <div class="col col-third">
+                            <img src="../static/img/place/place1.jpg" alt="New York" class="place-img">
+                            <div class="place-body">
+                                <h3 class="place-heading">New York</h3>
+                                <!-- <p class="place-time">Fri 27 Nov 2016</p> -->
+                                <p class="place-desc">Click to show Data History of {{ data2['description_1']['name'] }}
+                                    from the past.</p>
+                                <div class="container">
+                                    <!-- Button to trigger modal -->
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#myModal">
+                                        Open Data History
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Data Table</h4>
+                                                    <button type="button" class="close"
+                                                        data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- Table to display data -->
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Date</th>
+                                                                <th>Open</th>
+                                                                <th>High</th>
+                                                                <th>Low</th>
+                                                                <th>Close</th>
+                                                                <th>Volume</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for row in data1 %}
+                                                            <tr>
+                                                                <td>{{ row['Date'] }}</td>
+                                                                <td>{{ row['Open'] }}</td>
+                                                                <td>{{ row['High'] }}</td>
+                                                                <td>{{ row['Low'] }}</td>
+                                                                <td>{{ row['Close'] }}</td>
+                                                                <td>{{ row['Volume'] }}</td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col col-third">
+                            <img src="../static/img/place/place2.jpg" alt="Paris" class="place-img">
+                            <div class="place-body">
+                                <h3 class="place-heading">Paris</h3>
+                                <!-- <p class="place-time">Fri 27 Nov 2016</p> -->
+                                <p class="place-desc">Click to show Data Chart of {{ data2['description_1']['name'] }}
+                                    from the past.</p>
+                                <div class="container">
+                                    <!-- Button to trigger modal -->
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#myModal_chart">
+                                        Open Data Chart
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal_chart">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Data Table</h4>
+                                                    <button type="button" class="close"
+                                                        data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="container-fluid">
+                                                        <div
+                                                            class="row d-flex justify-content-center align-items-center">
+                                                            <div class="col-12">
+                                                                <!-- nội dung dashboard -->
+                                                                <h1>Dashboard</h1>
+                                                                {{ plot1|safe }}
+                                                                <p>This is a simple dashboard for Bitcoin price history.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-third">
+                            <img src="../static/img/place/place3.jpg" alt="San Francisco" class="place-img">
+                            <div class="place-body">
+                                <h3 class="place-heading">San Francisco</h3>
+                                <!-- <p class="place-time">Fri 27 Nov 2016</p> -->
+                                <p class="place-desc">Click to show preidct price of {{ data2['description_1']['name']
+                                    }} and plot .</p>
+                                <div class="container">
+                                    <!-- Button to trigger modal -->
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#myModal_predict">
+                                        Open Data Predict
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal_predict">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Predict Data</h4>
+                                                    <button type="button" class="close"
+                                                        data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h1>Predict 1 day</h1>
+                                                    Predict price of tomorrow is {{ data3['predict_1_day'][0][0] }}
+                                                    <h1>Predict 5 day</h1>
+                                                    <!-- Table to display data -->
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>date</th>
+                                                                <th>price</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for row in data4 %}
+                                                            <tr>
+                                                                <td>{{ row['date'] }}</td>
+                                                                <td>{{ row['price'] }}</td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                    <h1>Dashboard</h1>
+                                                    {{ plot2|safe }}
+                                                    <p>This is a simple dashboard for Bitcoin price predict in 5 day.
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Tour section -->
+
+            <!-- Begin Contact section -->
+            <!-- <div id="Contact" class="content-section">
+                <h2 class="section-heading">CONTACT</h2>
+                <p class="section-sub-heading">Fan? Drop a note!bb </p>
+
+                <div class="row contact-content">
+                    <div class="col col-half contact-info">
+                        <p><i class="ti-location-pin"></i>Chicago, US</p>
+                        <p><i class="ti-mobile"></i>Phone: +00 151515</p>
+                        <p><i class="ti-email"></i>Email: mail@mail.com</p>
+                    </div>
+                    <div class="col col-half contact-form">
+                        <form action="">
+                            <div class="row">
+                                <div class="col col-half">
+                                    <input type="text" name="" placeholder="Name" required id="" class="form-control">
+                                </div>
+                                <div class="col col-half">
+                                    <input type="email" name="" placeholder="Email" required id="" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row mt-8">
+                                <div class="col col-full">
+                                    <input type="text" name="" placeholder="Message" required id=""
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <input class="btn pull-right mt-16" type="submit" value="SEND">
+                        </form>
+                    </div>
+                </div>
+            </div> -->
+            <!-- End Contact section -->
+
+            <div class="map-section">
+                <img src="../static/img/map/map.jpg" alt="Map">
+            </div>
+        </div>
+        <!-- Begin footer -->
+        <div id="footer">
+            <div class="socials-list text-center">
+                <a href="{{ data2['description']['message_board'] }}"><i class="ti-themify-favicon"></i></a>
+                <a href="{{ data2['description']['reddit'] }}"><i class="ti-reddit"></i></a>
+                <a href="{{ data2['description']['website'] }}"><i class="ti-google"></i></a>
+                <a href="{{ data2['description']['technical_doc'] }}"><i class="ti-stack-overflow"></i></a>
+                <a href="{{ data2['description']['source_code'] }}"><i class="ti-github"></i></a>
+            </div>
+        </div>
+        <!-- End footer -->
+    </div>
+
+
+    <!-- Javascript -->
+    <!-- <script>
+        const buyBtns = document.querySelectorAll('.js-buy-ticket')
+        const modal = document.querySelector('.js-modal')
+        const modalContainer = document.querySelector('.js-modal-container')
+        const modalClose = document.querySelector('.js-modal-close')
+
+        // Hàm hiển thị mua vé
+        function showBuyTickets() {
+            modal.classList.add('open')
+        }
+
+        // Hàm tắt mua vé
+        function hideBuyTickets() {
+            modal.classList.remove('open')
+        }
+
+        for (const buyBtn of buyBtns) {
+            buyBtn.addEventListener('click', showBuyTickets)
+        }
+
+        // Nghe hành vi click vào button close
+        modalClose.addEventListener('click', hideBuyTickets)
+
+        modal.addEventListener('click', hideBuyTickets)
+
+        // stop hành vi nổi bọt ở trong container, dùng để trỏ chuột vào bên trong modal buy ticket mà không bị thoát ra
+        modalContainer.addEventListener('click', function (event) {
+            event.stopPropagation()
+        })
+    </script> -->
+
+
+
+    <!-- Link to jQuery and Bootstrap JS files -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
