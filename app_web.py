@@ -217,10 +217,6 @@ def predict(data):
     LSTM_test_inputs = [np.array(LSTM_test_inputs) for LSTM_test_inputs in LSTM_test_inputs]
     LSTM_test_inputs = np.array(LSTM_test_inputs)
     #Build model and predict
-    # predict_1_day = []
-    # predict_5_day = []
-    # predict_1_day= predict_1_day(LSTM_training_inputs,LSTM_training_outputs,LSTM_test_inputs,test_set)
-    # predict_5_day= predict_5_day(LSTM_training_inputs,LSTM_test_inputs,training_set,test_set,window_len)
     
     # result = {"predict_1_day": predict_1_day(LSTM_training_inputs,LSTM_training_outputs,LSTM_test_inputs,test_set), "predict_5_day": predict_5_day(LSTM_training_inputs,LSTM_test_inputs,training_set,test_set,window_len),
     #           "predict_10_day": predict_10_day(LSTM_training_inputs,LSTM_test_inputs,training_set,test_set,window_len), "predict_20_day": predict_20_day(LSTM_training_inputs,LSTM_test_inputs,training_set,test_set,window_len)}
@@ -317,7 +313,7 @@ def descripton(bitcoin_name):
     url = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/info"
     headers = {
         'Accepts': 'application/json',
-        'X-CMC_PRO_API_KEY': '99f6663d-cd5c-4a75-8e1e-e68080bf23a5'
+        'X-CMC_PRO_API_KEY': '99f6663d-cd5c-4a75-8e1e-e68080bf23a5'  # thay bằng API của cá nhân
     }
     parameters = {
     'symbol': name
@@ -475,6 +471,7 @@ def show_results(bitcoin_name):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
 # @socketio.on('connect')
 # def test_connect():
 #     print('Client connected')
