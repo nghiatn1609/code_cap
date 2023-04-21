@@ -267,8 +267,51 @@
                                                     </table>
                                                     <h1>Dashboard</h1>
                                                     {{ plot2|safe }}
-                                                    <p>This is a simple dashboard for Bitcoin price predict in 5 day.
-                                                    </p>
+                                                    <p>This is a simple dashboard for Bitcoin price predict in 5 day.</p>
+
+                                                    <h1>Predict 10 day</h1>
+                                                    <!-- Table to display data -->
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>date</th>
+                                                                <th>price</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for row in data5 %}
+                                                            <tr>
+                                                                <td>{{ row['date'] }}</td>
+                                                                <td>{{ row['price'] }}</td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                    <h1>Dashboard</h1>
+                                                    {{ plot3|safe }}
+                                                    <p>This is a simple dashboard for Bitcoin price predict in 10 day.</p>
+
+                                                    <h1>Predict 20 day</h1>
+                                                    <!-- Table to display data -->
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>date</th>
+                                                                <th>price</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for row in data6 %}
+                                                            <tr>
+                                                                <td>{{ row['date'] }}</td>
+                                                                <td>{{ row['price'] }}</td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                    <h1>Dashboard</h1>
+                                                    {{ plot4|safe }}
+                                                    <p>This is a simple dashboard for Bitcoin price predict in 20 day.</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
@@ -327,10 +370,19 @@
         <!-- Begin footer -->
         <div id="footer">
             <div class="socials-list text-center">
-                <a href="{{ data2['description']['message_board'] }}"><i class="ti-themify-favicon"></i></a>
+                {% if data2['description']['message_board'] %}
+                    <a href="{{ data2['description']['message_board'] }}"><i class="ti-themify-favicon"></i></a>
+                {% else %}
+                    <a href="#" style="display:none;"><i class="ti-themify-favicon"></i></a>
+                {% endif %}
                 <a href="{{ data2['description']['reddit'] }}"><i class="ti-reddit"></i></a>
                 <a href="{{ data2['description']['website'] }}"><i class="ti-google"></i></a>
-                <a href="{{ data2['description']['technical_doc'] }}"><i class="ti-stack-overflow"></i></a>
+                {% if data2['description']['technical_doc'] %}
+                    <a href="{{ data2['description']['technical_doc'] }}"><i class="ti-stack-overflow"></i></a>
+                {% else %}
+                    <a href="#" style="display:none;"><i class="ti-stack-overflow"></i></a>
+                {% endif %}
+                
                 <a href="{{ data2['description']['source_code'] }}"><i class="ti-github"></i></a>
             </div>
         </div>
