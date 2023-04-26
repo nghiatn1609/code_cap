@@ -1,90 +1,3 @@
-# # -*- coding: utf-8 -*-
-
-# import numpy as np
-# import pickle
-# from flask import Flask, request, render_template
-
-# # Load ML model
-# # model = pickle.load(open('model_pre.pkl', 'rb')) 
-
-# # Create application
-# app = Flask(__name__,template_folder='templates')
-
-# # Bind home function to URL
-# @app.route('/')
-# def home():
-#     return render_template('./index.html')
-
-# # Bind predict function to URL
-# @app.route('/predict', methods =['POST'])
-
-# def predict():
-    
-#     # Put all form entries values in a list 
-#     features = [float(i) for i in request.form.values()]
-#     # Convert features to array
-#     array_features = [np.array(features)]
-#     # Predict features
-#     prediction = model.predict(array_features)
-    
-#     output = prediction
-    
-#     # Check the output values and retrive the result with html tag based on the value
-#     return render_template('index.html', result = output)
-
-# if __name__ == '__main__':
-# #Run the application
-#     app.run()
-
-
-# thử lần 1
-# from flask import Flask, render_template
-# import yfinance as yf
-# import datetime
-
-
-# app = Flask(__name__)
-
-# @app.route('/')
-# def index():
-#     start_date = datetime.datetime(2010, 1, 1)
-#     end_date = datetime.datetime.now()
-
-#     data = yf.download('BTC-USD', start=start_date, end=end_date, group_by='day')
-#     # print(data)
-#     return render_template('./index_data.html', data=data)
-
-# if __name__ == '__main__':
-#     app.run()
-
-# thử lần 2
-# from flask import Flask, render_template
-# import yfinance as yf
-
-# app = Flask(__name__)
-
-# @app.route('/')
-# def index():
-#     return render_template('./index_1.html')
-
-# @app.route('/table', methods=['POST'])
-# def table():
-#     # Crawl dữ liệu từ finance yahoo thông qua yfinance
-#     ticker = yf.Ticker('BTC-USD')
-#     df = ticker.history(period='max')
-#     df = df.reset_index().rename(columns={'index': 'Date'})
-#     # df['Date'] = df['Date'].strftime("%d-%m-%Y")
-#     # Convert dataframe thành list các dictionary để dễ truy xuất trong template
-#     data = df.to_dict('records')
-
-#     # Render template và truyền dữ liệu vào
-#     return render_template('./index_data.html', data=data)
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
-
-
-# thử lần 3 
 from flask import Flask, render_template, request, redirect, url_for
 import yfinance as yf
 import pandas as pd
@@ -430,7 +343,7 @@ def descripton(bitcoin_name):
     url = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/info"
     headers = {
         'Accepts': 'application/json',
-        'X-CMC_PRO_API_KEY': '99f6663d-cd5c-4a75-8e1e-e68080bf23a5'
+        'X-CMC_PRO_API_KEY': '99f6663d-cd5c-4a75-8e1e-e68080bf23a5'  # thay bằng API của cá nhân
     }
     parameters = {
     'symbol': name
@@ -591,6 +504,7 @@ def show_results(bitcoin_name):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
 # @socketio.on('connect')
 # def test_connect():
 #     print('Client connected')
