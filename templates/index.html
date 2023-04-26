@@ -246,7 +246,7 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <h1>Predict 1 day</h1>
-                                                    Predict price of tomorrow is {{ data3['predict_1_day'][0][0] }}
+                                                    Predict price of {{data4[0]['date']}} is {{ data3['predict_1_day'][0][0] }}
                                                     <h1>Predict 5 day</h1>
                                                     <!-- Table to display data -->
                                                     <table class="table table-bordered">
@@ -364,11 +364,40 @@
             <!-- End Contact section -->
 
             <div class="map-section">
-                <img src="../static/img/map/map.jpg" alt="Map">
+                <!-- <img src="../static/img/map/map.jpg" alt="Map"> -->
+                <!-- Table to display data -->
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Name</th>
+                            <th>Change 1h</th>
+                            <th>Change 24h</th>
+                            <th>Change 7 days</th>
+                            <th>Market Cap</th>
+                            <th>Volume 24h</th>
+                            <th>Circulating Supply</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in data7 %}
+                        <tr>
+                            <td>{{ row['rank'] }}</td>
+                            <td>{{ row['name'] }}</td>
+                            <td>{{ row['change_1h'] }}</td>
+                            <td>{{ row['change_24h'] }}</td>
+                            <td>{{ row['change_7day'] }}</td>
+                            <td>{{ row['market_cap'] }}</td>
+                            <td>{{ row['volume_24h'] }}</td>
+                            <td>{{ row['circulating_supply'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
         <!-- Begin footer -->
-        <div id="footer">
+        <!-- <div id="footer">
             <div class="socials-list text-center">
                 {% if data2['description']['message_board'] %}
                     <a href="{{ data2['description']['message_board'] }}"><i class="ti-themify-favicon"></i></a>
@@ -385,7 +414,7 @@
                 
                 <a href="{{ data2['description']['source_code'] }}"><i class="ti-github"></i></a>
             </div>
-        </div>
+        </div> -->
         <!-- End footer -->
     </div>
 

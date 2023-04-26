@@ -102,6 +102,7 @@ from keras.layers import Activation, Dense
 from keras.layers import LSTM
 from keras.layers import Dropout
 from keras.models import load_model
+from bs4 import BeautifulSoup
 # from flask_socketio import SocketIO
 
 
@@ -274,12 +275,14 @@ def predict(data):
     # need to reverse the data frame so that subsequent rows represent later timepoints
     model_data = model_data.sort_values(by='Date')
     #Split train and test 
-    split_date = '2022-01-01'
-    training_set, test_set = model_data[model_data['Date']<split_date], model_data[model_data['Date']>=split_date]
+    train_size=int(len(model_data) *0.8)
+    test_size = int(len(model_data) *0.2)
+    training_set, test_set = model_data[:train_size], model_data[train_size:]
+    # training_set, test_set = model_data[model_data['Date']<split_date], model_data[model_data['Date']>=split_date]
     training_set = training_set.drop('Date', 1)
     test_set = test_set.drop('Date', 1)
     #Create window slide and norm columns
-    window_len = 20
+    window_len = 50
     norm_cols = [coin+metric for coin in ['bt_'] for metric in ['Close','Volume']]
     
     LSTM_training_inputs = []
@@ -304,17 +307,13 @@ def predict(data):
     LSTM_test_inputs = [np.array(LSTM_test_inputs) for LSTM_test_inputs in LSTM_test_inputs]
     LSTM_test_inputs = np.array(LSTM_test_inputs)
     #Build model and predict
-    # predict_1_day = []
-    # predict_5_day = []
-    # predict_1_day= predict_1_day(LSTM_training_inputs,LSTM_training_outputs,LSTM_test_inputs,test_set)
-    # predict_5_day= predict_5_day(LSTM_training_inputs,LSTM_test_inputs,training_set,test_set,window_len)
     
     # result = {"predict_1_day": predict_1_day(LSTM_training_inputs,LSTM_training_outputs,LSTM_test_inputs,test_set), "predict_5_day": predict_5_day(LSTM_training_inputs,LSTM_test_inputs,training_set,test_set,window_len),
     #           "predict_10_day": predict_10_day(LSTM_training_inputs,LSTM_test_inputs,training_set,test_set,window_len), "predict_20_day": predict_20_day(LSTM_training_inputs,LSTM_test_inputs,training_set,test_set,window_len)}
     
     #Dự đoán 1 ngày
     # Tải mô hình đã được đóng gói
-    with open(r'C:/Users/Admin/OneDrive/Máy tính/SP_23/Model_predict/Bitcoin_web/lstm_btc_model.pkl', 'rb') as f:
+    with open('./lstm_btc_model.pkl', 'rb') as f:
         model = pickle.load(f)
 
     # Dự đoán với tập dữ liệu mới
@@ -329,7 +328,7 @@ def predict(data):
     
     #Dự đoán 5 ngày
     # Tải mô hình đã được đóng gói
-    with open(r'C:/Users/Admin/OneDrive/Máy tính/SP_23/Model_predict/Bitcoin_web/lstm_btc_model_5_day.pkl', 'rb') as f:
+    with open('./lstm_btc_model_5_day.pkl', 'rb') as f:
         model_5_day = pickle.load(f)
 
     # Dự đoán với tập dữ liệu mới
@@ -344,7 +343,7 @@ def predict(data):
     
     #Dự đoán 10 ngày
     # Tải mô hình đã được đóng gói
-    with open(r'C:/Users/Admin/OneDrive/Máy tính/SP_23/Model_predict/Bitcoin_web/lstm_btc_model_10_day.pkl', 'rb') as f:
+    with open('./lstm_btc_model_10_day.pkl', 'rb') as f:
         model_10_day = pickle.load(f)
 
     # Dự đoán với tập dữ liệu mới
@@ -359,7 +358,7 @@ def predict(data):
     
     #Dự đoán 20 ngày
     # Tải mô hình đã được đóng gói
-    with open(r'C:/Users/Admin/OneDrive/Máy tính/SP_23/Model_predict/Bitcoin_web/lstm_btc_model_20_day.pkl', 'rb') as f:
+    with open('./lstm_btc_model_20_day.pkl', 'rb') as f:
         model_20_day = pickle.load(f)
 
     # Dự đoán với tập dữ liệu mới
@@ -376,7 +375,34 @@ def predict(data):
     
     return result
     
+def get_table():
+    url = 'https://coinmarketcap.com/'
+    response = requests.get(url)
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+    table = soup.find('table')
+    rows = table.find_all('tr')[1:11]  # lấy thông tin của 10 đồng coin đầu tiên
+    coins = []
+    for row in rows:
+        coin = {}
+        coin['rank'] = row.find_all('td')[1].get_text().strip()
+        coin['name'] = row.find_all('td')[2].find('p').get_text().strip()
+        coin['price'] = row.find_all('td')[3].get_text().strip()
+        coin['change_1h'] = row.find_all('td')[4].get_text().strip()
+        coin['change_24h'] = row.find_all('td')[5].get_text().strip()
+        coin['change_7day'] = row.find_all('td')[6].get_text().strip()
+        coin['market_cap'] = row.find_all('td')[7].find_all('span')[-1].text
+        coin['volume_24h'] = row.find_all('td')[8].find('p').get_text()
+        coin['circulating_supply'] = row.find_all('td')[9].get_text().strip()
+        coins.append(coin)
     
+    # print(coins)
+    # Tạo DataFrame từ danh sách coins
+    df_coins = pd.DataFrame(coins)
+    data_list = df_coins.to_dict('records')
+    return data_list
+
+
 def dashboard(bitcoin_name):
     # # some code to get data
     # # Thực hiện crawl dữ liệu
@@ -416,10 +442,10 @@ def descripton(bitcoin_name):
         "description": coin_info[0]["description"],
         "logo": coin_info[0]["logo"],
         "message_board": coin_info[0]["urls"]["message_board"], # có thể bỏ [0]
-        "reddit": coin_info[0]["urls"]["reddit"][0],
-        "source_code": coin_info[0]["urls"]["source_code"][0],
+        "reddit": coin_info[0]["urls"]["reddit"],
+        "source_code": coin_info[0]["urls"]["source_code"],
         "technical_doc": coin_info[0]["urls"]["technical_doc"], # có thể bỏ [0]
-        "website": coin_info[0]["urls"]["website"][0],
+        "website": coin_info[0]["urls"]["website"],
         
         }
     
@@ -483,6 +509,9 @@ def show_results(bitcoin_name):
     # Chuyển dữ liệu thành list để truyền vào template
     data_list = data.to_dict('records')
     dashboard(bitcoin_name)
+    
+    data_table = get_table()
+    
     # Save df to session
     # session['df'] = data_list
 
@@ -555,7 +584,7 @@ def show_results(bitcoin_name):
     # # generate the HTML code for the plot
     plot_html_20 = file_html(predict_20, CDN)
     # Render template hiển thị kết quả
-    return render_template('./index.html', data1= data_list, data2= des ,data3 = result_predict, data4 = df_5_day_html, data5 = df_10_day_html, data6 = df_20_day_html, plot1 = dashboard(bitcoin_name), plot2 = plot_html_5, plot3 = plot_html_10, plot4 = plot_html_20)
+    return render_template('./index.html', data1= data_list, data2= des ,data3 = result_predict, data4 = df_5_day_html, data5 = df_10_day_html, data6 = df_20_day_html, data7= data_table, plot1 = dashboard(bitcoin_name), plot2 = plot_html_5, plot3 = plot_html_10, plot4 = plot_html_20)
 
 # @app.route('/dashboard')
 
