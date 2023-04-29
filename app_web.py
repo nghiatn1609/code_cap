@@ -86,7 +86,7 @@ def predict_5_day(LSTM_training_inputs,LSTM_test_inputs,training_set,test_set,wi
     with open('lstm_btc_model_5_day.pkl', 'wb') as f:
         pickle.dump(bt_model_5_day, f)
     #Predict 5 day 
-    result_5_day = bt_model_5_day(LSTM_test_inputs[:-pred_range])
+    result_5_day = bt_model_5_day(LSTM_test_inputs)
     # đưa kết quả dự đoán về giá trị ban đầu của Bitcoin
     predicted_prices_denormalized = []
     for i in range(len(result_5_day)):
@@ -121,7 +121,7 @@ def predict_10_day(LSTM_training_inputs,LSTM_test_inputs,training_set,test_set,w
     with open('lstm_btc_model_10_day.pkl', 'wb') as f:
         pickle.dump(bt_model_10_day, f)
     #Predict 10 day 
-    result_10_day = bt_model_10_day(LSTM_test_inputs[:-pred_range])
+    result_10_day = bt_model_10_day(LSTM_test_inputs)
     # đưa kết quả dự đoán về giá trị ban đầu của Bitcoin
     predicted_prices_denormalized = []
     for i in range(len(result_10_day)):
@@ -156,7 +156,7 @@ def predict_20_day(LSTM_training_inputs,LSTM_test_inputs,training_set,test_set,w
     with open('lstm_btc_model_20_day.pkl', 'wb') as f:
         pickle.dump(bt_model_20_day, f)
     #Predict 20 day 
-    result_20_day = bt_model_20_day(LSTM_test_inputs[:-pred_range])
+    result_20_day = bt_model_20_day(LSTM_test_inputs)
     # đưa kết quả dự đoán về giá trị ban đầu của Bitcoin
     predicted_prices_denormalized = []
     for i in range(len(result_20_day)):
@@ -226,7 +226,7 @@ def predict(data):
     
     #Dự đoán 1 ngày
     # Tải mô hình đã được đóng gói
-    with open('./lstm_btc_model.pkl', 'rb') as f:
+    with open(r'C:\Users\Admin\OneDrive\Máy tính\SP_23\Model_predict\Bitcoin_web\lstm_btc_model.pkl', 'rb') as f:
         model = pickle.load(f)
 
     # Dự đoán với tập dữ liệu mới
@@ -241,11 +241,11 @@ def predict(data):
     
     #Dự đoán 5 ngày
     # Tải mô hình đã được đóng gói
-    with open('./lstm_btc_model_5_day.pkl', 'rb') as f:
+    with open(r'C:\Users\Admin\OneDrive\Máy tính\SP_23\Model_predict\Bitcoin_web\lstm_btc_model_5_day.pkl', 'rb') as f:
         model_5_day = pickle.load(f)
 
     # Dự đoán với tập dữ liệu mới
-    predictions_5_day = model_5_day.predict(LSTM_test_inputs[:-5])
+    predictions_5_day = model_5_day.predict(LSTM_test_inputs)
     
     # đưa kết quả dự đoán về giá trị ban đầu của Bitcoin
     predicted_prices_denormalized = []
@@ -256,11 +256,11 @@ def predict(data):
     
     #Dự đoán 10 ngày
     # Tải mô hình đã được đóng gói
-    with open('./lstm_btc_model_10_day.pkl', 'rb') as f:
+    with open(r'C:\Users\Admin\OneDrive\Máy tính\SP_23\Model_predict\Bitcoin_web\lstm_btc_model_10_day.pkl', 'rb') as f:
         model_10_day = pickle.load(f)
 
     # Dự đoán với tập dữ liệu mới
-    predictions_10_day = model_10_day.predict(LSTM_test_inputs[:-5])
+    predictions_10_day = model_10_day.predict(LSTM_test_inputs)
     
     # đưa kết quả dự đoán về giá trị ban đầu của Bitcoin
     predicted_prices_denormalized = []
@@ -271,11 +271,11 @@ def predict(data):
     
     #Dự đoán 20 ngày
     # Tải mô hình đã được đóng gói
-    with open('./lstm_btc_model_20_day.pkl', 'rb') as f:
+    with open(r'C:\Users\Admin\OneDrive\Máy tính\SP_23\Model_predict\Bitcoin_web\lstm_btc_model_20_day.pkl', 'rb') as f:
         model_20_day = pickle.load(f)
 
     # Dự đoán với tập dữ liệu mới
-    predictions_20_day = model_20_day.predict(LSTM_test_inputs[:-5])
+    predictions_20_day = model_20_day.predict(LSTM_test_inputs)
     
     # đưa kết quả dự đoán về giá trị ban đầu của Bitcoin
     predicted_prices_denormalized = []
@@ -299,7 +299,7 @@ def get_table():
     for row in rows:
         coin = {}
         coin['rank'] = row.find_all('td')[1].get_text().strip()
-        coin['name'] = row.find_all('td')[2].find('p').get_text().strip()
+        coin['name'] = row.find_all('td')[2].find('p').get_text().strip() + " - " + row.find_all('td')[2].find_all('p')[-1].get_text().strip()
         coin['price'] = row.find_all('td')[3].get_text().strip()
         coin['change_1h'] = row.find_all('td')[4].get_text().strip()
         coin['change_24h'] = row.find_all('td')[5].get_text().strip()
@@ -349,16 +349,37 @@ def descripton(bitcoin_name):
     'symbol': name
     }
     response = requests.get(url, headers=headers, params=parameters)
-    data = response.json()["data"]
+    data = response.json()['data']
     coin_info = data[name]
+    try:
+        message_board = coin_info[0]["urls"]["message_board"][0]
+    except:
+        message_board = coin_info[0]["urls"]["message_board"]
+        
+    try:
+        reddit = coin_info[0]["urls"]["reddit"][0]
+    except:
+        reddit = coin_info[0]["urls"]["reddit"]
+    try:
+        source_code = coin_info[0]["urls"]["source_code"][0]
+    except:
+        source_code = coin_info[0]["urls"]["source_code"]
+    try:
+        technical_doc = coin_info[0]["urls"]["technical_doc"][0]
+    except:
+        technical_doc = coin_info[0]["urls"]["technical_doc"]
+    try:
+        website = coin_info[0]["urls"]["website"][0]
+    except:
+        website = coin_info[0]["urls"]["website"]
     description = {
         "description": coin_info[0]["description"],
         "logo": coin_info[0]["logo"],
-        "message_board": coin_info[0]["urls"]["message_board"], # có thể bỏ [0]
-        "reddit": coin_info[0]["urls"]["reddit"],
-        "source_code": coin_info[0]["urls"]["source_code"],
-        "technical_doc": coin_info[0]["urls"]["technical_doc"], # có thể bỏ [0]
-        "website": coin_info[0]["urls"]["website"],
+        "message_board": message_board, # có thể bỏ [0]
+        "reddit": reddit,
+        "source_code": source_code,
+        "technical_doc": technical_doc,
+        "website": website,
         
         }
     
@@ -397,6 +418,24 @@ def descripton(bitcoin_name):
     output = {"description": description, "description_1": description_1}
     return output
 
+NEWS_API_KEY = 'abd4488d9b074cf2b9d6836808c714cd'
+# COIN = 'bitcoin'
+
+def get_news(COIN):
+    url = f"https://newsapi.org/v2/everything?q={COIN}&sortBy=publishedAt&apiKey={NEWS_API_KEY}"
+    response = requests.get(url)
+    data = response.json()
+    articles = data['articles']
+    news_list = []
+    for article in articles:
+        title = article['title']
+        description = article['description']
+        url = article['url']
+        img_url = article['urlToImage']
+        publishedAt = article['publishedAt']
+        news_list.append({'title': title,'description': description, 'url':url, 'img_url': img_url , 'publishedAt': publishedAt})
+    return news_list[:20]
+
 # Route để hiển thị trang web với form nhập tên bitcoin
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -424,7 +463,7 @@ def show_results(bitcoin_name):
     dashboard(bitcoin_name)
     
     data_table = get_table()
-    
+    news= get_news(bitcoin_name)
     # Save df to session
     # session['df'] = data_list
 
@@ -497,14 +536,18 @@ def show_results(bitcoin_name):
     # # generate the HTML code for the plot
     plot_html_20 = file_html(predict_20, CDN)
     # Render template hiển thị kết quả
-    return render_template('./index.html', data1= data_list, data2= des ,data3 = result_predict, data4 = df_5_day_html, data5 = df_10_day_html, data6 = df_20_day_html, data7= data_table, plot1 = dashboard(bitcoin_name), plot2 = plot_html_5, plot3 = plot_html_10, plot4 = plot_html_20)
+    return render_template('./index.html', data1= data_list, data2= des ,data3 = result_predict, data4 = df_5_day_html, data5 = df_10_day_html, data6 = df_20_day_html, data7= data_table, data8= news, plot1 = dashboard(bitcoin_name), plot2 = plot_html_5, plot3 = plot_html_10, plot4 = plot_html_20)
 
 # @app.route('/dashboard')
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
+# if __name__ == '__main__':
+#     from waitress import serve
+#     serve(app, host='127.0.0.1', port=5000)
+
+
 # @socketio.on('connect')
 # def test_connect():
 #     print('Client connected')

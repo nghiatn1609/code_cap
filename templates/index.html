@@ -5,12 +5,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Band</title>
-    <link rel="icon" href="https://www.google.com/a/cpanel/fpt.edu.vn/images/favicon.ico" type="image/x-icon">
+    <title>Cryptocurrency</title>
+    <link rel="icon" href="https://cdn.pixabay.com/photo/2017/07/27/21/37/bitcoin-2546854_960_720.png" type="image/x-icon">
     <link rel="stylesheet" href="../static/css/style_1.css">
     <link rel="stylesheet" href="../static/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <style>
         /* CSS để tùy chỉnh kích thước modal */
         .modal-dialog {
@@ -23,6 +33,23 @@
             overflow-y: auto;
             max-height: 500px;
             align-items: center;
+        }
+        .news-container {
+            display: flex;
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .news-card {
+            flex: 0 0 auto;
+            width: 300px;
+            margin-right: 40px;
+            /* height: 300px; */
+        }
+
+        .news-card img {
+            max-width: 100%;
+            height: auto;
         }
     </style>
 </head>
@@ -112,9 +139,9 @@
                     <!-- Places -->
                     <div class="row places-list">
                         <div class="col col-third">
-                            <img src="../static/img/place/place1.jpg" alt="New York" class="place-img">
+                            <img src="../static/img/place/bitcoin-2546854_1280.png" alt="Data History" class="place-img">
                             <div class="place-body">
-                                <h3 class="place-heading">New York</h3>
+                                <h3 class="place-heading">Data History</h3>
                                 <!-- <p class="place-time">Fri 27 Nov 2016</p> -->
                                 <p class="place-desc">Click to show Data History of {{ data2['description_1']['name'] }}
                                     from the past.</p>
@@ -174,9 +201,9 @@
                         </div>
 
                         <div class="col col-third">
-                            <img src="../static/img/place/place2.jpg" alt="Paris" class="place-img">
+                            <img src="../static/img/place/bitcoin-2546854_1280.png" alt="Data Chart" class="place-img">
                             <div class="place-body">
-                                <h3 class="place-heading">Paris</h3>
+                                <h3 class="place-heading">Data Dashboard</h3>
                                 <!-- <p class="place-time">Fri 27 Nov 2016</p> -->
                                 <p class="place-desc">Click to show Data Chart of {{ data2['description_1']['name'] }}
                                     from the past.</p>
@@ -222,9 +249,9 @@
                         </div>
 
                         <div class="col col-third">
-                            <img src="../static/img/place/place3.jpg" alt="San Francisco" class="place-img">
+                            <img src="../static/img/place/bitcoin-2546854_1280.png" alt="Data Predict" class="place-img">
                             <div class="place-body">
-                                <h3 class="place-heading">San Francisco</h3>
+                                <h3 class="place-heading">Data Predict</h3>
                                 <!-- <p class="place-time">Fri 27 Nov 2016</p> -->
                                 <p class="place-desc">Click to show preidct price of {{ data2['description_1']['name']
                                     }} and plot .</p>
@@ -246,7 +273,8 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <h1>Predict 1 day</h1>
-                                                    Predict price of {{data4[0]['date']}} is {{ data3['predict_1_day'][0][0] }}
+                                                    Predict price of {{data4[0]['date']}} is {{
+                                                    data3['predict_1_day'][0][0] }}
                                                     <h1>Predict 5 day</h1>
                                                     <!-- Table to display data -->
                                                     <table class="table table-bordered">
@@ -267,7 +295,8 @@
                                                     </table>
                                                     <h1>Dashboard</h1>
                                                     {{ plot2|safe }}
-                                                    <p>This is a simple dashboard for Bitcoin price predict in 5 day.</p>
+                                                    <p>This is a simple dashboard for Bitcoin price predict in 5 day.
+                                                    </p>
 
                                                     <h1>Predict 10 day</h1>
                                                     <!-- Table to display data -->
@@ -289,7 +318,8 @@
                                                     </table>
                                                     <h1>Dashboard</h1>
                                                     {{ plot3|safe }}
-                                                    <p>This is a simple dashboard for Bitcoin price predict in 10 day.</p>
+                                                    <p>This is a simple dashboard for Bitcoin price predict in 10 day.
+                                                    </p>
 
                                                     <h1>Predict 20 day</h1>
                                                     <!-- Table to display data -->
@@ -311,7 +341,8 @@
                                                     </table>
                                                     <h1>Dashboard</h1>
                                                     {{ plot4|safe }}
-                                                    <p>This is a simple dashboard for Bitcoin price predict in 20 day.</p>
+                                                    <p>This is a simple dashboard for Bitcoin price predict in 20 day.
+                                                    </p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
@@ -394,27 +425,39 @@
                         {% endfor %}
                     </tbody>
                 </table>
+
+                <div style="border: 3px solid #b32222 ; overflow-x: scroll" class="news-container">
+                    {% for article in data8 %}
+                    <div class="news-card">
+                        <h3>{{ article.title }}</h3>
+                        <p>{{ article.description }}</p>
+                        <img src="{{ article.img_url }}" alt="{{ article.title }}" width="300">
+                        <p><a href="{{ article.url }}" class="btn btn-primary">Read more</a></p>
+                        <p>{{ article.publishedAt }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
         <!-- Begin footer -->
-        <!-- <div id="footer">
+        <div id="footer">
             <div class="socials-list text-center">
-                {% if data2['description']['message_board'] %}
-                    <a href="{{ data2['description']['message_board'] }}"><i class="ti-themify-favicon"></i></a>
-                {% else %}
+                <!-- {% if data2['description']['message_board'] %} -->
+                <a href="{{ data2['description']['message_board'] }}"><i class="ti-themify-favicon"></i></a>
+                <!-- {% else %}
                     <a href="#" style="display:none;"><i class="ti-themify-favicon"></i></a>
-                {% endif %}
+                {% endif %} -->
                 <a href="{{ data2['description']['reddit'] }}"><i class="ti-reddit"></i></a>
                 <a href="{{ data2['description']['website'] }}"><i class="ti-google"></i></a>
-                {% if data2['description']['technical_doc'] %}
-                    <a href="{{ data2['description']['technical_doc'] }}"><i class="ti-stack-overflow"></i></a>
-                {% else %}
+                <!-- {% if data2['description']['technical_doc'] %} -->
+                <a href="{{ data2['description']['technical_doc'] }}"><i class="ti-stack-overflow"></i></a>
+                <!-- {% else %}
                     <a href="#" style="display:none;"><i class="ti-stack-overflow"></i></a>
-                {% endif %}
+                {% endif %} -->
                 
                 <a href="{{ data2['description']['source_code'] }}"><i class="ti-github"></i></a>
             </div>
-        </div> -->
+        </div>
         <!-- End footer -->
     </div>
 
